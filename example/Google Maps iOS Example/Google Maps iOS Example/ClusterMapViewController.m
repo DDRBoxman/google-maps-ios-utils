@@ -72,10 +72,6 @@
 }
 //
 - (void)updateMapResults {
-    [self addOrRemovePinsNotOnScreen];
-}
-
-- (void)addOrRemovePinsNotOnScreen {
     [clusterManager_ hideItemsNotInVisibleBounds];
 }
 
