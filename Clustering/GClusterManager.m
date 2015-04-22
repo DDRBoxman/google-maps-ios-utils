@@ -24,12 +24,25 @@
     [_clusterAlgorithm addItem:item];
 }
 
+- (void)removeItem:(id <GClusterItem>) item {
+    [_clusterAlgorithm removeItem:item];
+}
+
+-(BOOL)containsItem:(id<GClusterItem>)item{
+    return [_clusterAlgorithm containsItem:item];
+}
+
 - (void)removeItems {
   [_clusterAlgorithm removeItems];
 }
 
 - (void)removeItemsNotInRectangle:(CGRect)rect {
     [_clusterAlgorithm removeItemsNotInRectangle:rect];
+}
+- (void)hideItemsNotInVisibleBounds{
+    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithRegion:self.mapView.projection.visibleRegion];
+      [_clusterAlgorithm hideItemsNotInBounds:bounds];
+    [self cluster];
 }
 
 - (void)cluster {

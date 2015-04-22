@@ -7,6 +7,7 @@
 @interface GQuadItem : NSObject <GCluster, GQTPointQuadTreeItem, NSCopying> 
 
 - (id)initWithItem:(id <GClusterItem>)item;
+- (id <GClusterItem>)item;
 
 @property(nonatomic, assign) CLLocationCoordinate2D position;
 

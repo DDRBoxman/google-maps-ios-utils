@@ -7,6 +7,10 @@
     CLLocationCoordinate2D _position;
 }
 
+- (id)item{
+    return _item;
+}
+
 - (id)initWithItem:(id <GClusterItem>)clusterItem {
     if (self = [super init]) {
         SphericalMercatorProjection *projection = [[SphericalMercatorProjection alloc] initWithWorldWidth:1];
