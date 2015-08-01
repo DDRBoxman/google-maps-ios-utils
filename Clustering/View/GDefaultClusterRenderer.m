@@ -20,25 +20,19 @@
     for (GMSMarker *marker in _markerCache) {
         marker.map = nil;
     }
-    
     [_markerCache removeAllObjects];
     
     for (id <GCluster> cluster in clusters) {
         GMSMarker *marker;
-        marker = [[GMSMarker alloc] init];
-        [_markerCache addObject:marker];
-        
         NSUInteger count = cluster.items.count;
         if (count > 1) {
+            marker = [[GMSMarker alloc] init];
             marker.icon = [self generateClusterIconWithCount:count];
+            marker.position = cluster.marker.position;
+        } else {
+            marker = cluster.marker;
         }
-        else {
-            marker.icon = cluster.marker.icon;
-        }
-        
-        marker.userData = cluster.marker.userData;
-        
-        marker.position = cluster.marker.position;
+        [_markerCache addObject:marker];
         marker.map = _map;
     }
 }
