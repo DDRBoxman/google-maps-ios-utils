@@ -29,6 +29,33 @@
     [_quadTree add:quadItem];
 }
 
+- (void)removeItem:(id <GClusterItem>) item{
+    NSSet *set = [NSSet setWithObject:item];
+    [self removeClusterItemsInSet:set];
+}
+- (void)removeClusterItemsInSet:(NSSet *)set {
+    NSMutableArray *toRemove = [NSMutableArray array];
+    [_items enumerateObjectsUsingBlock:^(GQuadItem *quadItem, NSUInteger idx, BOOL *stop) {
+        if ([set containsObject:quadItem.item]) {
+            [toRemove addObject:quadItem];
+        }
+    }];
+    [_items removeObjectsInArray:toRemove];
+    [toRemove enumerateObjectsUsingBlock:^(GQuadItem *quadItem, NSUInteger idx, BOOL *stop) {
+        [_quadTree remove:quadItem];
+    }];
+}
+-(BOOL)containsItem:(id <GClusterItem>) item{
+    __block BOOL bFound = NO;
+    [_items enumerateObjectsUsingBlock:^(GQuadItem *quadItem, NSUInteger idx, BOOL *stop) {
+        if(quadItem.item == item){
+            bFound =  YES;
+            *stop = YES;
+        }
+    }];
+    return bFound;
+}
+
 - (void)removeItems
 {
   [_items removeAllObjects];
@@ -48,6 +75,17 @@
         }
     
     _items = newItems;
+}
+
+- (void)hideItemsNotInBounds:(GMSCoordinateBounds*)bounds
+{
+    for (GQuadItem *item in _items){
+        if (![bounds containsCoordinate:item.position ]) {
+            item.hidden = YES;
+        }else{
+               item.hidden = NO;
+        }
+    }
 }
 
 - (NSSet*)getClusters:(float)zoom {
